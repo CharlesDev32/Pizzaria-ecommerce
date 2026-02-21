@@ -1,0 +1,10 @@
+node_modules
+coverage
+dist
+.env
+.pnpm-store
+.next
+.next-dev
+data/
+*.log
+.claude/

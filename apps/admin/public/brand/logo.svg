@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260">
+  <g transform="translate(20 24)">
+    <ellipse cx="300" cy="106" rx="290" ry="96" fill="#FFF7EA" />
+    <ellipse cx="300" cy="106" rx="290" ry="96" fill="none" stroke="#090807" stroke-width="6" />
+    <ellipse cx="300" cy="106" rx="274" ry="82" fill="none" stroke="#D0121F" stroke-width="8" />
+
+    <text x="300" y="132" text-anchor="middle" fill="#D0121F" font-size="76" font-family="'Brush Script MT', 'Lobster Two', cursive" font-weight="700">
+      Sabor Express
+    </text>
+  </g>
+</svg>

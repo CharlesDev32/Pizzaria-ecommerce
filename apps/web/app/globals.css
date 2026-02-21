@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-banner: var(--font-heading);
+  --brand-navy: #090807;
+  --brand-navy-2: #19100f;
+  --brand-red: #d0121f;
+  --brand-red-2: #a60d18;
+  --brand-white: #fff7ea;
+  --brand-gray: #d3c2aa;
+  --brand-yellow: #f2ddbc;
+  --brand-border: rgba(255, 247, 234, 0.22);
+}
+
+body {
+  @apply bg-brand-navy text-brand-white antialiased;
+  font-family: var(--font-body), 'Nunito', sans-serif;
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(208, 18, 31, 0.38), transparent 38%),
+    radial-gradient(circle at 85% 18%, rgba(242, 221, 188, 0.1), transparent 30%),
+    linear-gradient(90deg, rgba(255, 247, 234, 0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 247, 234, 0.02) 1px, transparent 1px);
+  background-size: auto, auto, 32px 32px, 32px 32px;
+  background-position: center;
+}
+
+.font-brand {
+  font-family: var(--font-brand), 'Lobster Two', cursive;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--brand-yellow);
+  outline-offset: 2px;
+}
+
+.card-surface {
+  @apply rounded-2xl border;
+  border-color: var(--brand-border);
+  background-color: var(--brand-navy-2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 247, 234, 0.08);
+  backdrop-filter: blur(6px);
+}

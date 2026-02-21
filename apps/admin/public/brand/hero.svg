@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+  <defs>
+    <linearGradient id="redGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0121F" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#A60D18" stop-opacity="0.1" />
+    </linearGradient>
+    <pattern id="tiles" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#FFF7EA" stroke-opacity="0.08" stroke-width="1" />
+    </pattern>
+    <radialGradient id="creamGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#F2DDBC" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#F2DDBC" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="500" fill="#090807" />
+  <rect width="1200" height="500" fill="url(#tiles)" />
+  <circle cx="180" cy="30" r="250" fill="url(#redGlow)" />
+  <circle cx="1050" cy="470" r="220" fill="url(#redGlow)" />
+
+  <g transform="translate(80 70)">
+    <rect x="0" y="0" width="520" height="330" rx="28" fill="#140D0C" stroke="#FFF7EA" stroke-opacity="0.2" />
+    <text x="34" y="96" fill="#FFF7EA" font-size="88" font-family="'Brush Script MT', 'Lobster Two', cursive" font-weight="700">
+      Sabor Express
+    </text>
+    <text x="36" y="142" fill="#F2DDBC" font-size="18" letter-spacing="3" font-family="'Oswald', 'Arial Narrow', sans-serif">
+      SEU SABOR FAVORITO, NA SUA PORTA
+    </text>
+    <text x="36" y="196" fill="#D3C2AA" font-size="28" font-family="'Oswald', 'Arial Narrow', sans-serif">
+      PEDIDOS ONLINE COM ENTREGA RAPIDA
+    </text>
+    <rect x="36" y="228" width="180" height="44" rx="22" fill="#D0121F" />
+    <text x="126" y="256" text-anchor="middle" fill="#FFF7EA" font-size="17" letter-spacing="2" font-family="'Oswald', 'Arial Narrow', sans-serif">
+      PECA AGORA
+    </text>
+  </g>
+
+  <g transform="translate(690 40)">
+    <rect x="0" y="40" width="420" height="360" rx="32" fill="#D0121F" />
+    <ellipse cx="210" cy="300" rx="112" ry="18" fill="#090807" fill-opacity="0.2" />
+    <ellipse cx="210" cy="190" rx="150" ry="108" fill="#FFF7EA" />
+    <ellipse cx="210" cy="190" rx="124" ry="88" fill="#140D0C" fill-opacity="0.08" stroke="#D0121F" stroke-opacity="0.55" />
+    <rect x="140" y="190" width="140" height="110" rx="64" fill="#FFF7EA" stroke="#D0121F" stroke-width="8" />
+    <path d="M185 190c5-35 19-54 25-60 6 9 17 22 25 60" fill="none" stroke="#D0121F" stroke-width="8" stroke-linecap="round" />
+    <circle cx="190" cy="232" r="8" fill="#D0121F" />
+    <circle cx="230" cy="232" r="8" fill="#D0121F" />
+    <path d="M190 260c14 12 34 12 48 0" fill="none" stroke="#D0121F" stroke-width="6" stroke-linecap="round" />
+    <circle cx="90" cy="110" r="42" fill="url(#creamGlow)" />
+    <circle cx="330" cy="120" r="30" fill="url(#creamGlow)" />
+  </g>
+</svg>

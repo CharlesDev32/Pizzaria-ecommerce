@@ -1,0 +1,8 @@
+import { z } from 'zod';
+
+export const categorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional(),
+});
