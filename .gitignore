@@ -8,3 +8,5 @@ dist
 data/
 *.log
 .claude/
+src/generated/
+*.tsbuildinfo
