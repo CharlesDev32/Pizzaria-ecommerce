@@ -1,270 +1,131 @@
-# Sabor Express - Plataforma de Delivery
+# Sabor Express — full-stack food delivery platform
 
-Plataforma completa de e-commerce para delivery de comida, com loja online, painel administrativo e API RESTful. Construida como monorepo com NestJS, Next.js e TypeScript.
+A complete e-commerce platform for food delivery: a customer storefront, an admin
+panel and a REST API, built as a pnpm monorepo with **NestJS 11**, **Next.js 14**
+and **TypeScript**.
 
----
+Built as a portfolio project to exercise a realistic domain end to end — auth with
+refresh tokens, role-based access, inventory, coupons, delivery zones and an audit
+trail — rather than a CRUD demo.
 
-## Funcionalidades
-
-### Loja (Cliente)
-- Catalogo de produtos com categorias e busca
-- Pagina de detalhes do produto com opcoes e complementos
-- Carrinho de compras persistente
-- Checkout com selecao de endereco e agendamento de entrega
-- Historico de pedidos com timeline de status
-- Cadastro e login com JWT (access + refresh tokens)
-- Gerenciamento de enderecos de entrega
-- Banner promocional customizavel
-- Tema dinamico (cores, fontes, logo) aplicado em tempo real
-
-### Painel Admin
-- Dashboard com metricas e visao geral
-- CRUD completo de produtos com upload de imagens
-- Gerenciamento de categorias
-- Controle de estoque/inventario
-- Gerenciamento de pedidos com atualizacao de status
-- Sistema de cupons de desconto
-- Gerenciamento de usuarios
-- Configuracao de zonas e horarios de entrega
-- Logs de auditoria
-- **Design da Loja** — editor visual completo:
-  - Cores do tema (7 variaveis: fundo, cards, botoes, destaque, textos)
-  - Fontes do corpo e titulos (12 opcoes do Google Fonts)
-  - Logo com upload drag & drop e controle de tamanho
-  - Banner promocional com texto colorido por palavra, imagem de fundo, foto lateral, opacidade e fonte customizaveis
-  - Imagem/textura de fundo do site com controle de opacidade
-  - Toggle de exibicao do nome da marca
-  - Preview ao vivo de todas as alteracoes
-
-### API
-- 18 modulos de dominio (auth, catalog, cart, checkout, orders, payments, delivery, etc.)
-- Autenticacao JWT com refresh token automatico
-- Controle de acesso por roles (admin/customer)
-- Rate limiting (100 req/min)
-- Upload de imagens (base64 data URLs)
-- Documentacao Swagger em `/api/v1/docs`
-- Protecao contra brute force
-- Global exception handling
-
----
-
-## Screenshots
-
-| Loja - Home | Loja - Cardapio | Loja - Produto |
-|:-----------:|:---------------:|:--------------:|
-| ![Home](docs/screenshots/storefront-home.png) | ![Menu](docs/screenshots/storefront-menu.png) | ![Product](docs/screenshots/storefront-product.png) |
-
-| Loja - Carrinho | Loja - Checkout | Admin - Dashboard |
-|:---------------:|:---------------:|:-----------------:|
-| ![Cart](docs/screenshots/storefront-cart.png) | ![Checkout](docs/screenshots/storefront-checkout.png) | ![Dashboard](docs/screenshots/admin-dashboard.png) |
-
-| Admin - Produtos | Admin - Pedidos |
-|:-----------------:|:---------------:|
-| ![Products](docs/screenshots/admin-products.png) | ![Orders](docs/screenshots/admin-orders.png) |
-
----
-
-## Arquitetura
-
-```
-E-commerce/
-├── src/                         # NestJS 11 — API Backend (porta 3000)
-│   ├── modules/                 # 18 modulos de dominio
-│   │   ├── auth/                # Login, registro, refresh, logout
-│   │   ├── catalog/             # Produtos + upload de imagens
-│   │   ├── categories/          # Categorias de produtos
-│   │   ├── cart/                # Carrinho de compras
-│   │   ├── checkout/            # Finalizacao de pedido
-│   │   ├── orders/              # Pedidos + timeline de status
-│   │   ├── payments/            # Processamento de pagamentos
-│   │   ├── delivery/            # Zonas, bairros, horarios de entrega
-│   │   ├── addresses/           # Enderecos do usuario
-│   │   ├── coupons/             # Cupons de desconto
-│   │   ├── inventory/           # Controle de estoque
-│   │   ├── users/               # Gerenciamento de usuarios
-│   │   ├── settings/            # Configuracoes da loja (tema, logo, fontes)
-│   │   ├── files/               # Upload de arquivos
-│   │   ├── health/              # Health check
-│   │   ├── metrics/             # Metricas Prometheus
-│   │   └── audit-log/           # Logs de auditoria
-│   ├── common/                  # Guards, filters, decorators, middleware
-│   └── shared/store/            # StoreService (dados in-memory)
-│
-├── apps/
-│   ├── web/                     # Next.js 14 — Loja do cliente (porta 3001)
-│   │   ├── app/                 # App Router (paginas)
-│   │   ├── components/          # Navbar, Footer, PromoBanner, ProductCard, ThemeProvider
-│   │   └── store/               # Zustand (auth, cart)
-│   │
-│   └── admin/                   # Next.js 14 — Painel admin (porta 3002)
-│       ├── app/                 # App Router (paginas)
-│       ├── components/          # AdminShell, tabelas, formularios
-│       └── store/               # Zustand (admin-auth)
-│
-├── packages/
-│   └── shared/                  # @pizza/shared — pacote compartilhado
-│       ├── src/api/             # Clients HTTP (auth, catalog, cart, settings, etc.)
-│       ├── src/types/           # Interfaces TypeScript
-│       ├── src/schemas/         # Validacao Zod
-│       └── src/utils/           # Utilitarios (money, pagination)
-│
-└── docs/screenshots/            # Screenshots da aplicacao
-```
-
-### Armazenamento de dados
-
-O `StoreService` e um singleton NestJS que armazena todos os dados em arrays na memoria (sem banco de dados em runtime). As **configuracoes da loja** (tema, cores, fontes, logo) sao persistidas em arquivo JSON (`data/settings.json`) e sobrevivem a reinicializacoes. Os demais dados (usuarios, produtos, pedidos) sao resetados ao reiniciar o backend.
-
----
+> **Scope note:** the API persists domain data in memory, not in a database. That
+> was a deliberate decision to keep the focus on API design, module boundaries and
+> the frontend contract. Store configuration is the exception and is persisted to
+> `data/settings.json`. Swapping `StoreService` for a Prisma/TypeORM repository is
+> the natural next step and the module boundaries were drawn with that in mind.
 
 ## Stack
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Backend | NestJS 11, TypeScript, JWT, Swagger, Helmet |
+| Layer | Technology |
+|---|---|
+| Backend | NestJS 11, TypeScript, JWT (access + refresh), Swagger, Helmet |
 | Frontend | Next.js 14 (App Router), React 18, Tailwind CSS |
-| State | Zustand (persist), TanStack Query |
-| Validacao | Zod, class-validator |
+| State | Zustand (persisted), TanStack Query |
+| Validation | Zod, class-validator |
 | Monorepo | pnpm workspaces |
-| Fontes | Google Fonts (Nunito, Oswald + 10 opcoes dinamicas) |
 
----
+## What it does
 
-## Como executar
+**Storefront** — product catalog with categories and search, product options and
+add-ons, persistent cart, checkout with address selection and delivery scheduling,
+order history with a status timeline, address book, and a theme that the admin can
+restyle at runtime.
 
-### Pre-requisitos
+**Admin panel** — metrics dashboard, product CRUD with image upload, categories,
+inventory movements, order management with status transitions, discount coupons,
+user management, delivery zones and time slots, audit logs, and a visual store
+designer (7 theme colors, 12 Google Fonts, logo upload, promotional banner,
+background texture) with live preview.
 
-- Node.js 18+
-- pnpm 8+
+**API** — 18 domain modules, JWT auth with automatic refresh, role-based access
+control (admin/customer), rate limiting at 100 req/min, brute-force protection,
+global exception handling, Prometheus metrics, health checks, and Swagger docs at
+`/api/v1/docs`.
 
-### Instalacao
+## Architecture
+
+```
+.
+├── src/                      # NestJS 11 — API (:3000)
+│   ├── modules/              # 18 domain modules
+│   │   ├── auth/             # login, register, refresh, logout
+│   │   ├── catalog/          # products + image upload
+│   │   ├── categories/
+│   │   ├── cart/
+│   │   ├── checkout/
+│   │   ├── orders/           # orders + status timeline
+│   │   ├── payments/
+│   │   ├── delivery/         # zones, neighborhoods, time slots
+│   │   ├── addresses/
+│   │   ├── coupons/
+│   │   ├── inventory/
+│   │   ├── users/
+│   │   ├── settings/         # theme, logo, fonts
+│   │   ├── files/
+│   │   ├── health/
+│   │   ├── metrics/          # Prometheus
+│   │   └── audit-log/
+│   ├── common/               # guards, filters, decorators, middleware
+│   └── shared/store/         # StoreService — in-memory persistence
+│
+├── apps/
+│   ├── web/                  # Next.js 14 — storefront (:3001)
+│   └── admin/                # Next.js 14 — admin panel (:3002)
+│
+└── packages/
+    └── shared/               # @pizza/shared — HTTP clients, types, Zod schemas, utils
+```
+
+The `@pizza/shared` package is what makes the monorepo worth it: HTTP clients,
+TypeScript interfaces and Zod schemas are declared once and consumed by both
+frontends, so a change to an API contract breaks the build instead of breaking
+production.
+
+## Running it
+
+Requires Node.js 18+ and pnpm 8+.
 
 ```bash
 git clone https://github.com/CharlesDev32/Pizzaria-ecommerce.git
 cd Pizzaria-ecommerce
 pnpm install
+
+pnpm start:dev   # API on :3000
+pnpm dev         # storefront on :3001 and admin on :3002
 ```
 
-### Executar em desenvolvimento
-
-```bash
-# Terminal 1 — Backend (porta 3000)
-pnpm start:dev
-
-# Terminal 2 — Web + Admin (portas 3001 e 3002)
-pnpm dev
-```
-
-Ou separadamente:
-
-```bash
-pnpm dev:web       # Somente loja (porta 3001)
-pnpm dev:admin     # Somente admin (porta 3002)
-```
-
-### Acessar
-
-| Servico | URL |
-|---------|-----|
+| Service | URL |
+|---|---|
 | API | http://localhost:3000 |
 | Swagger | http://localhost:3000/api/v1/docs |
-| Loja | http://localhost:3001 |
+| Storefront | http://localhost:3001 |
 | Admin | http://localhost:3002 |
 
----
+The API seeds two demo accounts on boot. They exist only in the in-memory store of
+your local instance, so the credentials are in
+[`src/shared/store/seed.ts`](src/shared/store/seed.ts) rather than in this README.
 
-## Credenciais padrao
-
-| Papel | Email | Senha |
-|-------|-------|-------|
-| Admin | admin@pizzainpizza.local | Admin123! |
-| Cliente | cliente@saborexpress.com | Customer123! |
-
----
-
-## Rotas
-
-### Loja (`localhost:3001`)
-
-| Rota | Descricao |
-|------|-----------|
-| `/` | Home com banner, categorias e destaques |
-| `/menu` | Cardapio completo com filtros |
-| `/product/[slug]` | Detalhes do produto |
-| `/cart` | Carrinho de compras |
-| `/checkout` | Finalizacao do pedido |
-| `/orders` | Historico de pedidos |
-| `/orders/[id]` | Detalhes e timeline do pedido |
-| `/account` | Dados da conta |
-| `/account/addresses` | Gerenciar enderecos |
-| `/auth/login` | Login |
-| `/auth/register` | Cadastro |
-
-### Admin (`localhost:3002`)
-
-| Rota | Descricao |
-|------|-----------|
-| `/dashboard` | Metricas e visao geral |
-| `/products` | Gerenciar produtos |
-| `/categories` | Gerenciar categorias |
-| `/inventory` | Controle de estoque |
-| `/orders` | Gerenciar pedidos |
-| `/coupons` | Cupons de desconto |
-| `/users` | Gerenciar usuarios |
-| `/delivery` | Zonas e horarios de entrega |
-| `/settings` | Design da loja (tema, cores, fontes, logo) |
-| `/audit-logs` | Logs de auditoria |
-
----
-
-## API Endpoints
-
-| Modulo | Metodos | Autenticacao |
-|--------|---------|-------------|
-| Auth | POST login, register, refresh, logout | Publico |
-| Settings | GET (publico), PATCH + POST upload | Admin |
-| Catalog | GET (publico), POST/PATCH/DELETE + upload | Admin |
-| Categories | GET (publico), POST/PATCH/DELETE | Admin |
-| Cart | GET, POST, PATCH, DELETE, apply-coupon | Usuario |
-| Checkout | POST | Usuario |
-| Orders | GET (me/all/id/timeline), PATCH status | Usuario/Admin |
-| Delivery | GET zones/neighborhoods/slots, POST | Admin |
-| Addresses | CRUD | Usuario |
-| Coupons | CRUD | Admin |
-| Inventory | GET movements, POST | Admin |
-| Users | GET all, PATCH | Admin |
-
----
-
-## Sistema de temas
-
-O admin pode personalizar todo o visual da loja em tempo real:
-
-1. **Admin salva** alteracoes no `/settings`
-2. **Backend persiste** via `PATCH /api/v1/settings` em `data/settings.json`
-3. **Loja busca** configuracoes via `GET /api/v1/settings` (polling automatico)
-4. **ThemeProvider** injeta CSS custom properties no `:root` e carrega Google Fonts dinamicamente
-
-Personalizaveis: 7 cores, 2 fontes (corpo + titulos), logo com tamanho ajustavel, banner promocional completo (textos, cores por palavra, imagem de fundo, foto lateral, fonte, tamanho), imagem/textura de fundo do site, visibilidade do nome da marca.
-
----
-
-## Scripts disponiveis
+## Scripts
 
 ```bash
-pnpm start:dev       # Backend com hot reload
-pnpm dev             # Web + Admin em paralelo
-pnpm dev:web         # Somente loja
-pnpm dev:admin       # Somente admin
-pnpm build           # Build do backend
-pnpm lint            # ESLint
-pnpm format          # Prettier
-pnpm test            # Jest
-pnpm typecheck       # TypeScript check (todos os projetos)
+pnpm start:dev    # API with hot reload
+pnpm dev          # storefront + admin in parallel
+pnpm dev:web      # storefront only
+pnpm dev:admin    # admin only
+pnpm build        # build the API
+pnpm lint         # ESLint
+pnpm format       # Prettier
+pnpm test         # Jest
+pnpm typecheck    # TypeScript across all projects
 ```
 
----
+## Runtime theming
 
-## Licenca
+The admin saves changes to `/settings`; the API persists them via
+`PATCH /api/v1/settings` to `data/settings.json`; the storefront reads them from
+`GET /api/v1/settings` and a `ThemeProvider` injects CSS custom properties on
+`:root` and loads the selected Google Fonts dynamically. No rebuild, no redeploy.
 
-Projeto privado. Todos os direitos reservados.
+## License
+
+MIT — see [LICENSE](LICENSE).
